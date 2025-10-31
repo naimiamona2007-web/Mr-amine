@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>nisseemx — صفحة شخصية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --glass-bg: rgba(255,255,255,0.06);
+      --accent: #ff2b2b;
+      --muted: rgba(255,255,255,0.6);
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Inter", system-ui, Arial;
+      direction: rtl;
+      -webkit-font-smoothing:antialiased;
+    }
+    .bg{
+      position:fixed;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      filter: blur(6px) brightness(0.45);
+      transform: scale(1.03);
+      z-index:0;
+    }
+    .overlay{
+      position:fixed; inset:0; z-index:1;
+      background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.45));
+      pointer-events:none;
+    }
+    .container{
+      position:relative;
+      z-index:2;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:28px 16px 80px;
+      box-sizing:border-box;
+      color:white;
+      text-align:center;
+    }
+    .profile-wrap{
+      margin-top:36px;
+      position:relative;
+      width:150px;
+      height:150px;
+    }
+    .profile{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      border:6px solid rgba(255,255,255,0.06);
+    }
+    .profile img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .ring{
+      position:absolute;
+      inset: -8px;
+      border-radius:50%;
+      pointer-events:none;
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.2), 0 0 0 8px rgba(255,0,0,0.06);
+      background: conic-gradient(from 150deg, transparent 0 70%, rgba(255,0,0,0.18) 70% 100%);
+      transform: rotate(-8deg);
+    }
+    .badge{
+      position:absolute;
+      left:-6px; top: 90%;
+      transform:translateY(-50%);
+      background: white;
+      color:black;
+      width:36px; height:36px;
+      border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      border:3px solid rgba(0,0,0,0.12);
+    }
+    h1{
+      margin:18px 0 6px;
+      font-size:48px;
+      letter-spacing:1px;
+      font-weight:800;
+    }
+    .location{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      color:var(--muted);
+      font-weight:600;
+      margin-bottom:18px;
+    }
+    .card{
+      width:min(760px,94%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border-radius:22px;
+      padding:14px 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      display:flex;
+      gap:14px;
+      align-items:center;
+      margin:16px 0 26px;
+      border:1px solid rgba(255,255,255,0.04);
+    }
+    .card .mini{
+      width:72px;height:72px;border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,0.04);
+    }
+    .card .meta{
+      flex:1;
+      text-align:right;
+    }
+    .card .meta .name{ font-weight:700; font-size:20px; color:white; }
+    .card .meta .last{ color:var(--muted); font-size:14px; margin-top:6px; }
+    .icons{
+      display:flex;
+      gap:22px;
+      align-items:center;
+      justify-content:center;
+      margin-top:6px;
+      opacity:0.95;
+    }
+    .icons .ic{
+      width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      background: rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 6px 22px rgba(0,0,0,0.6);
+    }
+    .views{
+      position:absolute;
+      left:22px;
+      bottom:120px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .bottom-bar{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      height:64px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 16px;
+      background:linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.5));
+      z-index:4;
+      backdrop-filter: blur(6px);
+      color:var(--muted);
+      font-weight:700;
+    }
+    .bottom-bar .left{display:flex; gap:8px; align-items:center;}
+    .bottom-bar .right{ margin-left:auto; color:rgba(255,255,255,0.9); font-weight:900; }
+    .play-btn{
+      position: absolute;
+      right: calc(50% - 36px);
+      bottom: 120px;
+      z-index:5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:72px;height:72px;border-radius:50%;
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border:2px solid rgba(255,255,255,0.06);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      cursor:pointer;
+    }
+    .play-btn svg{ width:30px; height:30px; fill:white; }
+    @media (max-width:420px){
+      h1{ font-size:36px; }
+      .profile-wrap{ width:120px;height:120px; }
+      .play-btn{ right: calc(50% - 30px); bottom: 110px; width:60px;height:60px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" id="bg" style="background-image: url('bg.jpg');"></div>
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="profile-wrap" aria-hidden="false">
+      <div class="ring"></div>
+      <div class="profile">
+        <img src="profile.jpg" alt="profile">
+      </div>
+      <div class="badge">!</div>
+    </div>
+    <h1>nisseemx</h1>
+    <div class="location">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="margin-left:6px">
+        <path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7z" fill="white" opacity=".95"/>
+        <circle cx="12" cy="9" r="2.5" fill="#fff"/>
+      </svg>
+      <div style="font-size:16px;">Germany</div>
+    </div>
+    <div class="card">
+      <div class="mini"><img src="profile.jpg" alt=""></div>
+      <div class="meta">
+        <div class="name">5offach_x_197</div>
+        <div class="last">last seen 1 hour ago</div>
+      </div>
+      <div style="width:40px;text-align:center;color:var(--muted)">◐</div>
+    </div>
+    <div class="icons" role="navigation" aria-label="social icons">
+      <div class="ic" title="Discord">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M0 0h24v24H0z" fill="transparent"/></svg>
+      </div>
+      <div class="ic" title="K (QR)">
+        <svg width="22" height="22" viewBox="0 0 24 24"><rect width="22" height="22" rx="4" fill="white" /></svg>
+      </div>
+      <div class="ic" title="Instagram">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect width="22" height="22" rx="4" fill="transparent"/></svg>
+      </div>
+    </div>
+    <div class="views"><svg width="18" height="18" viewBox="0 0 24 24" style="opacity:.95"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 11a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="white"/></svg> <span style="font-weight:700">25</span></div>
+    <div class="play-btn" id="playBtn" title="تشغيل / إيقاف">
+      <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="white"/></svg>
+      <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="white"/></svg>
+    </div>
+  </div>
+  <div class="bottom-bar">
+    <div class="left">
+      <div style="width:34px;height:34px;border-radius:6px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 1l8 3v7c0 5-3.8 9.7-8 11-4.2-1.3-8-6-8-11V4l8-3z" fill="white"/></svg>
+      </div>
+      <div style="display:flex;flex-direction:column; margin-right:8px">
+        <div style="font-weight:800;color:white">@niss</div>
+        <div style="font-size:12px;color:var(--muted)">guns.lol</div>
+      </div>
+    </div>
+    <div class="right">⋮</div>
+  </div>
+  <audio id="bg-audio" src="weekend.mp3" loop preload="auto"></audio>
+  <script>
+    const audio = document.getElementById('bg-audio');
+    const playBtn = document.getElementById('playBtn');
+    const playIcon = document.getElementById('playIcon');
+    const pauseIcon = document.getElementById('pauseIcon');
+    function updateButton(){
+      if(audio.paused){
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+      } else {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+      }
+    }
+    playBtn.addEventListener('click', async ()=>{
+      try{
+        if(audio.paused){
+          await audio.play();
+        } else {
+          audio.pause();
+        }
+      }catch(e){
+        try { audio.play(); } catch(e2) { console.log('play blocked', e2); }
+      }
+      updateButton();
+    });
+    document.addEventListener('click', function once(){
+      if(audio.paused){
+        audio.play().then(()=> updateButton()).catch(()=>{/*still blocked*/});
+      }
+      document.removeEventListener('click', once);
+    }, {once:true});
+    updateButton();
+  </script>
+</body>
+</html>
